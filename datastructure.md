@@ -167,7 +167,79 @@ print(top_n)
 ```
 
 Counter可以使用任意的hashable序列对象，在底层实现上Counter使用了字典结构存储，映射元素与其在序列中出现频率。
+### 通过某个关键字排序一个字典列表
 
+一个字典列表，根据某个或某几个字典字段来排序这个列表。
+
+
+使用operator模块的itemgetter函数（字典排序）来完成这种数据结构的排序。
+
+```
+
+from operator import itemgetter
+
+rows = [
+{'fname': 'Brian', 'lname': 'Jones', 'uid': 1003}, {'fname': 'David', 'lname': 'Beazley', 'uid': 1002}, {'fname': 'John', 'lname': 'Cleese', 'uid': 1001}, {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}
+]
+
+rows_by_names = sorted(rows,key=itemgetter('fname'))
+rows_by_uid = sorted(rows,key=itemgetter('uid'))
+
+print(rows_by_names)
+
+print(rows_by_uid)
+```
+
+```
+[{'fname': 'Big', 'lname': 'Jones', 'uid': 1004}, {'fname': 'Brian', 'lname': 'Jones', 'uid': 1003}, {'fname': 'David', 'lname': 'Beazley', 'uid': 1002}, {'fname': 'John', 'lname': 'Cleese', 'uid': 1001}]
+[{'fname': 'John', 'lname': 'Cleese', 'uid': 1001}, {'fname': 'David', 'lname': 'Beazley', 'uid': 1002}, {'fname': 'Brian', 'lname': 'Jones', 'uid': 1003}, {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}]
+```
+同时itemgetter函数也支持多个key来排序。
+
+
+
+```
+rows_by_uid_names = sorted(rows,key=itemgetter('uid','fname'))
+print(rows_by_uid_names)
+```
+```
+[{'fname': 'John', 'lname': 'Cleese', 'uid': 1001}, {'fname': 'David', 'lname': 'Beazley', 'uid': 1002}, {'fname': 'Brian', 'lname': 'Jones', 'uid': 1003}, {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}]
+```
+以上两个例子调用了内置函数sorted来进行排序，并且这个sorted函数带有关键字参数，2⃣️这个关键字参数是callable类型，所以itemgetter函数在这就是用来创建callable对象的。
+
+#### 通过某个字段将记录分组
+
+
+一个字典或者实例序列，想要通过其中某个属性来完成排序。比如date。
+
+给出以下示例对其根据某一个字段进行排序。
+
+```
+rows = [
+{'address': '5412 N CLARK', 'date': '07/01/2012'},
+{'address': '5148 N CLARK', 'date': '07/04/2012'},
+{'address': '5800 E 58TH', 'date': '07/02/2012'},
+{'address': '2122 N CLARK', 'date': '07/03/2012'},
+{'address': '5645 N RAVENSWOOD', 'date': '07/02/2012'},
+{'address': '1060 W ADDISON', 'date': '07/02/2012'},
+{'address': '4801 N BROADWAY', 'date': '07/01/2012'},
+{'address': '1039 W GRANVILLE', 'date': '07/04/2012'},
+]
+```
+```
+from operator import itemgetter
+from itertools import groupby
+
+
+rows.sort(key=itemgetter('date'))
+
+for key,group in groupby(rows,key=itemgetter('date')):
+    print(key)
+    for i in group:
+        print(i)
+```
+
+上述代码先是根据date属性对字典序列排序，使date相同的字典元素排列在一起，然后使用groupby函数来分组。groupby可以对连续的相同的元素按组划分。
 
 
 
@@ -176,4 +248,4 @@ Counter可以使用任意的hashable序列对象，在底层实现上Counter使�
 
 
 
-:q
+
