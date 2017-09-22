@@ -247,6 +247,37 @@ for key,group in groupby(rows,key=itemgetter('date')):
 
 
 
+#### python内建模块collections
+
+* deque
+
+deque底层使用队列构建，先进先出。python当中的deque提供了`appendleft()`和`popleft()`方法高效完成队列头部的增加和删除。除此之外deque也提供`append()`与`pop()`方法。
+
+```
+from collections import deque
+
+q = deque([1,23,4])
+q.append(5)
+q.pop()
+q.appendleft(6)
+print(q)
+```
+
+* OrderedDict
+
+```
+from collections import  OrderedDict
+
+d = dict([('a', 1), ('b', 2), ('c', 3)])
+print(d)
+
+od = OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+print(od)
+
+>>>>{'a': 1, 'b': 2, 'c': 3}
+
+>>>>OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+```
 
  
 
