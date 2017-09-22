@@ -265,6 +265,7 @@ print(q)
 
 * OrderedDict
 
+这种数据结构只是对key插入dict的顺序排序，而不是对字典key本身排序。
 ```
 from collections import  OrderedDict
 
